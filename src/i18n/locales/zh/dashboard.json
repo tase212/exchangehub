@@ -1,0 +1,20 @@
+{
+  "title": "我的账户",
+  "welcome": "欢迎回来，{{username}}",
+  "postOrder": "发布挂单",
+  "logout": "退出登录",
+  "stats.total": "总交易笔数",
+  "stats.completed": "已完成",
+  "stats.active": "进行中",
+  "wallet.title": "钱包",
+  "wallet.deposit": "+ 模拟充值",
+  "wallet.empty": "暂无余额，点击充值",
+  "wallet.frozen": "冻结: {{amount}}",
+  "deposit.currency": "币种",
+  "deposit.amount": "金额",
+  "deposit.confirm": "充值",
+  "deposit.success": "充值成功",
+  "transactions.title": "最近交易",
+  "transactions.empty": "暂无交易记录",
+  "transactions.browse": "去市场看看"
+}

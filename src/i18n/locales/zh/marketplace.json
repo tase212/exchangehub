@@ -1,0 +1,17 @@
+{
+  "title": "交易市场",
+  "subtitle": "浏览当前挂单，找到最优汇率",
+  "filter.iSell": "我卖出",
+  "filter.iBuy": "我买入",
+  "filter.method": "交易方式",
+  "filter.allMethods": "全部方式",
+  "noOrders": "暂无匹配的挂单",
+  "postOrder": "发布挂单",
+  "postOrderAlt": "发布一个挂单",
+  "card.sell": "卖出",
+  "card.buy": "买入",
+  "card.rate": "汇率",
+  "card.seller": "卖家",
+  "card.trade": "查看详情",
+  "card.tradeNow": "立即交易"
+}

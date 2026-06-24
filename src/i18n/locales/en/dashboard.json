@@ -1,0 +1,20 @@
+{
+  "title": "My Account",
+  "welcome": "Welcome back, {{username}}",
+  "postOrder": "Post Order",
+  "logout": "Log Out",
+  "stats.total": "Total Trades",
+  "stats.completed": "Completed",
+  "stats.active": "In Progress",
+  "wallet.title": "Wallet",
+  "wallet.deposit": "+ Simulate Deposit",
+  "wallet.empty": "No funds yet. Click deposit to add.",
+  "wallet.frozen": "Frozen: {{amount}}",
+  "deposit.currency": "Currency",
+  "deposit.amount": "Amount",
+  "deposit.confirm": "Deposit",
+  "deposit.success": "Deposit successful",
+  "transactions.title": "Recent Transactions",
+  "transactions.empty": "No transactions yet",
+  "transactions.browse": "Browse marketplace"
+}

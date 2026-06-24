@@ -1,0 +1,17 @@
+{
+  "title": "交易市場",
+  "subtitle": "瀏覽當前掛單，搵到最優匯率",
+  "filter.iSell": "我賣出",
+  "filter.iBuy": "我買入",
+  "filter.method": "交易方式",
+  "filter.allMethods": "全部方式",
+  "noOrders": "暫無匹配嘅掛單",
+  "postOrder": "發佈掛單",
+  "postOrderAlt": "發佈一個掛單",
+  "card.sell": "賣出",
+  "card.buy": "買入",
+  "card.rate": "匯率",
+  "card.seller": "賣家",
+  "card.trade": "檢視詳情",
+  "card.tradeNow": "立即交易"
+}

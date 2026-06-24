@@ -1,0 +1,17 @@
+{
+  "title": "마켓",
+  "subtitle": "현재 주문을 탐색하고 최상의 환율을 찾으세요",
+  "filter.iSell": "판매",
+  "filter.iBuy": "구매",
+  "filter.method": "방법",
+  "filter.allMethods": "전체",
+  "noOrders": "일치하는 주문이 없습니다",
+  "postOrder": "주문 등록",
+  "postOrderAlt": "주문 등록하기",
+  "card.sell": "판매",
+  "card.buy": "구매",
+  "card.rate": "환율",
+  "card.seller": "판매자",
+  "card.trade": "상세 보기",
+  "card.tradeNow": "바로 거래"
+}

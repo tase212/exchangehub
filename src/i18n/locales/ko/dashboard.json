@@ -1,0 +1,20 @@
+{
+  "title": "내 계정",
+  "welcome": "다시 오신 것을 환영합니다, {{username}}",
+  "postOrder": "주문 등록",
+  "logout": "로그아웃",
+  "stats.total": "총 거래",
+  "stats.completed": "완료",
+  "stats.active": "진행 중",
+  "wallet.title": "지갑",
+  "wallet.deposit": "+ 충전 (테스트)",
+  "wallet.empty": "잔액이 없습니다. 충전해주세요.",
+  "wallet.frozen": "동결: {{amount}}",
+  "deposit.currency": "통화",
+  "deposit.amount": "금액",
+  "deposit.confirm": "충전",
+  "deposit.success": "충전 완료",
+  "transactions.title": "최근 거래",
+  "transactions.empty": "거래 내역이 없습니다",
+  "transactions.browse": "마켓 둘러보기"
+}

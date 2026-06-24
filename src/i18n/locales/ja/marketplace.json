@@ -1,0 +1,17 @@
+{
+  "title": "マーケット",
+  "subtitle": "募集中の注文を閲覧し、最良のレートを見つける",
+  "filter.iSell": "売却通貨",
+  "filter.iBuy": "購入通貨",
+  "filter.method": "方法",
+  "filter.allMethods": "すべて",
+  "noOrders": "該当する注文がありません",
+  "postOrder": "注文を出す",
+  "postOrderAlt": "注文を出す",
+  "card.sell": "売却",
+  "card.buy": "購入",
+  "card.rate": "レート",
+  "card.seller": "出品者",
+  "card.trade": "詳細を見る",
+  "card.tradeNow": "今すぐ取引"
+}

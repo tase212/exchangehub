@@ -1,0 +1,20 @@
+{
+  "title": "マイアカウント",
+  "welcome": "おかえりなさい、{{username}}",
+  "postOrder": "注文を出す",
+  "logout": "ログアウト",
+  "stats.total": "取引総数",
+  "stats.completed": "完了",
+  "stats.active": "進行中",
+  "wallet.title": "ウォレット",
+  "wallet.deposit": "+ チャージ（テスト）",
+  "wallet.empty": "残高がありません。チャージしてください。",
+  "wallet.frozen": "凍結中: {{amount}}",
+  "deposit.currency": "通貨",
+  "deposit.amount": "金額",
+  "deposit.confirm": "チャージ",
+  "deposit.success": "チャージ成功",
+  "transactions.title": "最近の取引",
+  "transactions.empty": "取引履歴がありません",
+  "transactions.browse": "マーケットを見る"
+}

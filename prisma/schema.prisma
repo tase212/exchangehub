@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  username      String    @unique
+  passwordHash  String    @map("password_hash")
+  phone         String?
+  avatar        String?
+  kycStatus     String    @default("PENDING") @map("kyc_status")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  wallets       Wallet[]
+  sellOrders    Order[]   @relation("Seller")
+  buyOrders     Order[]   @relation("Buyer")
+  reviewsGiven  Review[]  @relation("Reviewer")
+  reviewsTaken  Review[]  @relation("Target")
+  rateAlerts    RateAlert[]
+
+  @@map("users")
+}
+
+model Wallet {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  currency      String
+  balance       Float    @default(0)
+  frozenBalance Float    @default(0) @map("frozen_balance")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, currency])
+  @@map("wallets")
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  sellerId      String      @map("seller_id")
+  buyerId       String?     @map("buyer_id")
+  
+  sellCurrency  String      @map("sell_currency")
+  sellAmount    Float       @map("sell_amount")
+  buyCurrency   String      @map("buy_currency")
+  buyAmount     Float       @map("buy_amount")
+  
+  rate          Float
+  status        String      @default("OPEN")
+  
+  method        String
+  location      String?
+  note          String?
+  
+  frozenWalletId String?    @map("frozen_wallet_id")
+  
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  completedAt   DateTime?   @map("completed_at")
+
+  seller        User        @relation("Seller", fields: [sellerId], references: [id])
+  buyer         User?       @relation("Buyer", fields: [buyerId], references: [id])
+  reviews       Review[]
+
+  @@index([sellCurrency, buyCurrency, status])
+  @@index([sellerId])
+  @@index([buyerId])
+  @@map("orders")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  orderId   String   @map("order_id")
+  reviewerId String  @map("reviewer_id")
+  targetId  String   @map("target_id")
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  order     Order    @relation(fields: [orderId], references: [id])
+  reviewer  User     @relation("Reviewer", fields: [reviewerId], references: [id])
+  target    User     @relation("Target", fields: [targetId], references: [id])
+
+  @@unique([orderId, reviewerId])
+  @@map("reviews")
+}
+
+model ExchangeShop {
+  id            String   @id @default(uuid())
+  name          String
+  address       String
+  city          String
+  country       String
+  phone         String?
+  lat           Float?
+  lng           Float?
+  currencies    String
+  rating        Float    @default(0)
+  reviewCount   Int      @default(0) @map("review_count")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([city, country])
+  @@map("exchange_shops")
+}
+
+model RateAlert {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  fromCurrency String  @map("from_currency")
+  toCurrency  String   @map("to_currency")
+  targetRate  Float    @map("target_rate")
+  isAbove     Boolean  @default(true) @map("is_above")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("rate_alerts")
+}

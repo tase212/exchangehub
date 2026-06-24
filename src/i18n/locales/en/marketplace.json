@@ -1,0 +1,17 @@
+{
+  "title": "Marketplace",
+  "subtitle": "Browse active orders and find the best rates",
+  "filter.iSell": "I sell",
+  "filter.iBuy": "I buy",
+  "filter.method": "Method",
+  "filter.allMethods": "All",
+  "noOrders": "No matching orders",
+  "postOrder": "Post Order",
+  "postOrderAlt": "Post an Order",
+  "card.sell": "Sell",
+  "card.buy": "Buy",
+  "card.rate": "Rate",
+  "card.seller": "Seller",
+  "card.trade": "View Details",
+  "card.tradeNow": "Trade Now"
+}
