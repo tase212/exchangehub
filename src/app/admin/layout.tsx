@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: '/admin/users', label: '用户管理', icon: '👥' },
   { href: '/admin/commissions', label: '佣金管理', icon: '💰' },
   { href: '/admin/withdrawals', label: '提现管理', icon: '🏦' },
+  { href: '/admin/settings', label: '账号设置', icon: '⚙️' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
