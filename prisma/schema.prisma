@@ -18,12 +18,16 @@ model User {
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  wallets       Wallet[]
-  sellOrders    Order[]   @relation("Seller")
-  buyOrders     Order[]   @relation("Buyer")
-  reviewsGiven  Review[]  @relation("Reviewer")
-  reviewsTaken  Review[]  @relation("Target")
-  rateAlerts    RateAlert[]
+  wallets          Wallet[]
+  sellOrders       Order[]       @relation("Seller")
+  buyOrders        Order[]       @relation("Buyer")
+  reviewsGiven     Review[]      @relation("Reviewer")
+  reviewsTaken     Review[]      @relation("Target")
+  rateAlerts       RateAlert[]
+  kycSubmissions   KycSubmission[]
+  bankCards        BankCard[]
+  bankAccounts     BankAccount[]
+  transactions     Transaction[]
 
   @@map("users")
 }
@@ -126,4 +130,82 @@ model RateAlert {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("rate_alerts")
+}
+
+model KycSubmission {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  idType        String   @map("id_type")
+  idFrontImage  String   @map("id_front_image")
+  idBackImage   String?  @map("id_back_image")
+  selfieImage   String   @map("selfie_image")
+  status        String   @default("SUBMITTED")
+  rejectReason  String?  @map("reject_reason")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("kyc_submissions")
+}
+
+model BankCard {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  cardLast4     String   @map("card_last4")
+  cardholder    String
+  expiryMonth   Int      @map("expiry_month")
+  expiryYear    Int      @map("expiry_year")
+  brand         String
+  bankName      String?  @map("bank_name")
+  isDefault     Boolean  @default(false) @map("is_default")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("bank_cards")
+}
+
+model BankAccount {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  accountLast4  String   @map("account_last4")
+  routingCode   String?  @map("routing_code")
+  bankName      String   @map("bank_name")
+  accountHolder String   @map("account_holder")
+  country       String
+  currency      String
+  isDefault     Boolean  @default(false) @map("is_default")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("bank_accounts")
+}
+
+model Transaction {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  type            String
+  amount          Float
+  currency        String
+  fee             Float    @default(0)
+  status          String   @default("PENDING")
+  referenceNo     String   @unique @map("reference_no")
+  paymentMethod   String?  @map("payment_method")
+  relatedCardId   String?  @map("related_card_id")
+  relatedAccountId String? @map("related_account_id")
+  relatedOrderId  String?  @map("related_order_id")
+  note            String?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  completedAt     DateTime? @map("completed_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@index([userId, status])
+  @@map("transactions")
 }

@@ -37,6 +37,11 @@ export function I18nProvider({
         () => import(`./locales/${l}/marketplace.json`),
         () => import(`./locales/${l}/dashboard.json`),
         () => import(`./locales/${l}/orders.json`),
+        () => import(`./locales/${l}/kyc.json`),
+        () => import(`./locales/${l}/payment-methods.json`),
+        () => import(`./locales/${l}/deposit.json`),
+        () => import(`./locales/${l}/withdraw.json`),
+        () => import(`./locales/${l}/transactions.json`),
       ]
 
       const results = await Promise.all(modules.map((m) => m()))

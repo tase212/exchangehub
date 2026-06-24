@@ -8,6 +8,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [walletOpen, setWalletOpen] = useState(false)
   const { user, isAuthenticated } = useAuth()
   const { t, locale } = useTranslation()
 
@@ -34,6 +35,21 @@ export function Navbar() {
 
             {isAuthenticated ? (
               <>
+                <div className="relative">
+                  <button onClick={() => setWalletOpen(!walletOpen)} className="text-gray-600 hover:text-blue-600 transition text-sm font-medium flex items-center gap-1">
+                    💰 {t('nav.wallet')}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                  {walletOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+                      <Link href={`/${locale}/deposit`} className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600">{t('nav.deposit')}</Link>
+                      <Link href={`/${locale}/withdraw`} className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600">{t('nav.withdraw')}</Link>
+                      <Link href={`/${locale}/transactions`} className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600">{t('nav.transactions')}</Link>
+                      <Link href={`/${locale}/payment-methods`} className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600">{t('nav.paymentMethods')}</Link>
+                      <Link href={`/${locale}/kyc`} className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600">{t('nav.kyc')}</Link>
+                    </div>
+                  )}
+                </div>
                 <Link href={`/${locale}/create-order`}
                   className="bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition text-sm font-medium">
                   {t('nav.createOrder')}
@@ -79,6 +95,14 @@ export function Navbar() {
             <Link href={`/${locale}/rates`} className="block py-2 text-gray-600 hover:text-blue-600">{t('nav.rates')}</Link>
             {isAuthenticated ? (
               <>
+                <div className="border-t pt-2 mt-2">
+                  <p className="text-xs text-gray-400 px-2 py-1">{t('nav.wallet')}</p>
+                  <Link href={`/${locale}/deposit`} className="block py-2 pl-4 text-gray-600 hover:text-blue-600">{t('nav.deposit')}</Link>
+                  <Link href={`/${locale}/withdraw`} className="block py-2 pl-4 text-gray-600 hover:text-blue-600">{t('nav.withdraw')}</Link>
+                  <Link href={`/${locale}/transactions`} className="block py-2 pl-4 text-gray-600 hover:text-blue-600">{t('nav.transactions')}</Link>
+                  <Link href={`/${locale}/payment-methods`} className="block py-2 pl-4 text-gray-600 hover:text-blue-600">{t('nav.paymentMethods')}</Link>
+                  <Link href={`/${locale}/kyc`} className="block py-2 pl-4 text-gray-600 hover:text-blue-600">{t('nav.kyc')}</Link>
+                </div>
                 <Link href={`/${locale}/create-order`} className="block py-2 text-blue-600 font-medium">{t('nav.createOrder')}</Link>
                 <Link href={`/${locale}/dashboard`} className="block py-2 text-gray-600">{t('nav.dashboard')} ({user?.username})</Link>
               </>
