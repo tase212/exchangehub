@@ -5,12 +5,12 @@ import Link from 'next/link'
 import { useTranslation } from '@/i18n/useTranslation'
 
 const RATES: Record<string, number> = {
-  'CNY-HKD': 1.080, 'CNY-USD': 0.1382, 'CNY-EUR': 0.1274, 'CNY-JPY': 20.85, 'CNY-GBP': 0.1091,
-  'HKD-CNY': 0.926, 'HKD-USD': 0.1275, 'HKD-EUR': 0.1176, 'HKD-JPY': 19.10, 'HKD-GBP': 0.1006,
-  'USD-CNY': 7.25, 'USD-HKD': 7.82, 'USD-EUR': 0.92, 'USD-JPY': 149.5, 'USD-GBP': 0.79,
-  'EUR-CNY': 7.87, 'EUR-HKD': 8.51, 'EUR-USD': 1.09, 'EUR-JPY': 162.6, 'EUR-GBP': 0.86,
-  'GBP-CNY': 9.15, 'GBP-HKD': 9.91, 'GBP-USD': 1.27, 'GBP-EUR': 1.17, 'GBP-JPY': 189.5,
-  'JPY-CNY': 0.048, 'JPY-HKD': 0.052, 'JPY-USD': 0.0067, 'JPY-EUR': 0.0062, 'JPY-GBP': 0.0053,
+  'CNY-HKD': 1.1531, 'CNY-USD': 0.1471, 'CNY-EUR': 0.1291, 'CNY-JPY': 23.755, 'CNY-GBP': 0.1114,
+  'HKD-CNY': 0.8673, 'HKD-USD': 0.1275, 'HKD-EUR': 0.1120, 'HKD-JPY': 20.601, 'HKD-GBP': 0.0966,
+  'USD-CNY': 6.800, 'USD-HKD': 7.841, 'USD-EUR': 0.878, 'USD-JPY': 161.54, 'USD-GBP': 0.757,
+  'EUR-CNY': 7.746, 'EUR-HKD': 8.932, 'EUR-USD': 1.139, 'EUR-JPY': 184.0, 'EUR-GBP': 1.159,
+  'GBP-CNY': 8.980, 'GBP-HKD': 10.354, 'GBP-USD': 1.321, 'GBP-EUR': 0.863, 'GBP-JPY': 213.33,
+  'JPY-CNY': 0.0421, 'JPY-HKD': 0.0485, 'JPY-USD': 0.00619, 'JPY-EUR': 0.00544, 'JPY-GBP': 0.00469,
 }
 const CURRENCIES = ['CNY', 'HKD', 'USD', 'EUR', 'GBP', 'JPY']
 const FLAGS: Record<string, string> = { CNY: '🇨🇳', HKD: '🇭🇰', USD: '🇺🇸', EUR: '🇪🇺', GBP: '🇬🇧', JPY: '🇯🇵' }
