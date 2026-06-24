@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { useTranslation } from '@/i18n/useTranslation'
 
 const RATES: Record<string, number> = {
-  'CNY-HKD': 1.08, 'CNY-USD': 0.138, 'CNY-EUR': 0.127, 'CNY-JPY': 20.85, 'CNY-GBP': 0.109,
-  'HKD-CNY': 0.926, 'HKD-USD': 0.128, 'HKD-EUR': 0.117, 'HKD-JPY': 19.1, 'HKD-GBP': 0.101,
+  'CNY-HKD': 1.080, 'CNY-USD': 0.1382, 'CNY-EUR': 0.1274, 'CNY-JPY': 20.85, 'CNY-GBP': 0.1091,
+  'HKD-CNY': 0.926, 'HKD-USD': 0.1275, 'HKD-EUR': 0.1176, 'HKD-JPY': 19.10, 'HKD-GBP': 0.1006,
   'USD-CNY': 7.25, 'USD-HKD': 7.82, 'USD-EUR': 0.92, 'USD-JPY': 149.5, 'USD-GBP': 0.79,
   'EUR-CNY': 7.87, 'EUR-HKD': 8.51, 'EUR-USD': 1.09, 'EUR-JPY': 162.6, 'EUR-GBP': 0.86,
   'GBP-CNY': 9.15, 'GBP-HKD': 9.91, 'GBP-USD': 1.27, 'GBP-EUR': 1.17, 'GBP-JPY': 189.5,
@@ -31,8 +31,8 @@ const COUNTRIES: [string, string][] = [
 ]
 
 const COMPETITORS = [
-  { name: 'Bank', logo: '🏦', fee: (a: number) => a * 0.03 + 65, recv: (a: number, r: number) => a * r * 0.95, markup: (a: number) => a * 0.03 + 3.27, er: (r: number) => r * 0.997 },
-  { name: 'PayPal', logo: '🅿️', fee: (a: number) => a * 0.04 + 39, recv: (a: number, r: number) => a * r * 0.93, markup: (a: number) => a * 0.04 + 40, er: (r: number) => r * 0.96 },
+  { name: 'Bank', logo: '🏦', fee: (a: number) => 65 + a * 0.002, feeRate: () => 0.005, markupPct: () => 0.03 },
+  { name: 'PayPal', logo: '🅿️', fee: (a: number) => 39 + a * 0.035, feeRate: () => 0.01, markupPct: () => 0.04 },
 ]
 
 const SECURITY_SVGS = [
@@ -221,18 +221,21 @@ export default function HomePage({ params }: { params: { locale: string } }) {
                 </div>
               </div>
               {COMPETITORS.map((p) => {
-                const pFee = p.fee(numAmount), pRecv = p.recv(numAmount, rate), pMarkup = p.markup(numAmount), pEr = p.er(rate)
+                const compFee = p.fee(numAmount)
+                const markupAmount = numAmount * p.markupPct()
+                const compRate = rate * (1 - p.feeRate() - p.markupPct())
+                const compRecv = numAmount * compRate
                 return (
                   <div key={p.name} className="p-6 text-center bg-white border-r border-gray-100 last:border-r-0">
                     <div className="text-2xl mb-2">{p.logo}</div>
                     <div className="text-sm font-bold mb-3 text-gray-600">{p.name}</div>
-                    <div className="text-2xl font-bold text-[#0e0f0c]">{pRecv.toFixed(2)} {toCurrency}</div>
-                    <div className="text-xs text-red-500 mt-1 mb-4">-{(receiveAmount - pRecv).toFixed(2)} {toCurrency}</div>
+                    <div className="text-2xl font-bold text-[#0e0f0c]">{compRecv.toFixed(2)} {toCurrency}</div>
+                    <div className="text-xs text-red-500 mt-1 mb-4">-{(receiveAmount - compRecv).toFixed(2)} {toCurrency}</div>
                     <div className="space-y-2 text-xs border-t border-gray-100 pt-3">
-                      <div className="flex justify-between"><span className="text-gray-500">{texts.transferFee}</span><span className="font-mono">{pFee.toFixed(2)} HKD</span></div>
-                      <div className="flex justify-between"><span className="text-gray-500">{texts.exchangeRate}</span><span className="font-mono">1 HKD = {pEr.toFixed(4)} USD</span></div>
-                      <div className="flex justify-between text-red-500 font-medium"><span>{texts.markup}</span><span>{pMarkup.toFixed(2)} HKD</span></div>
-                      <div className="border-t pt-2 flex justify-between font-bold text-[#0e0f0c]"><span>{texts.cost}</span><span>{(pFee + pMarkup).toFixed(2)} HKD</span></div>
+                      <div className="flex justify-between text-left"><span className="text-gray-500">{texts.transferFee}</span><span className="font-mono">{compFee.toFixed(2)} HKD</span></div>
+                      <div className="flex justify-between text-left"><span className="text-gray-500">{texts.exchangeRate}</span><span className="font-mono">1 HKD = {compRate.toFixed(4)} USD</span></div>
+                      <div className="flex justify-between text-red-500 font-medium"><span>{texts.markup}</span><span>{markupAmount.toFixed(2)} HKD</span></div>
+                      <div className="border-t pt-2 flex justify-between font-bold text-[#0e0f0c]"><span>{texts.cost}</span><span>{(compFee + markupAmount).toFixed(2)} HKD</span></div>
                     </div>
                   </div>
                 )
