@@ -337,25 +337,11 @@ export default function HomePage({ params }: { params: { locale: string } }) {
       <footer className="py-16 px-4" style={{ background: 'rgba(22,51,0,0.078)' }}>
         <div className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-20">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
-            {[
-              ['Products', [['Marketplace', `/${locale}/marketplace`], ['Exchange Shops', `/${locale}/shops`], ['Live Rates', `/${locale}/rates`]]],
-              ['Account', [['Sign Up', `/${locale}/register`], ['Log In', `/${locale}/login`], ['Deposit', `/${locale}/deposit`], ['Withdraw', `/${locale}/withdraw`]]],
-              ['Resources', [['Verify Identity', `/${locale}/kyc`], ['Transactions', `/${locale}/transactions`], ['Payment Methods', `/${locale}/payment-methods`], ['Rate Alerts', '']]],
-              ['Company', [['About Us', ''], ['Security', ''], ['Careers', ''], ['Press', '']]],
-              ['Help', [['Help Center', ''], ['API Docs', ''], ['Contact Us', '']]],
-            ].map(([title, items]: [string, [string, string][]]) => (
-              <div key={title as string}>
-                <h4 className="font-bold mb-4 text-[#0e0f0c]">{title}</h4>
-                <ul className="space-y-2">
-                  {items.map(([label, href]) => (
-                    <li key={label}>
-                      {href ? <Link href={href} className="text-sm text-gray-500 hover:text-[#0e0f0c] transition-colors">{label}</Link>
-                      : <span className="text-sm text-gray-500 hover:text-[#0e0f0c] cursor-pointer transition-colors">{label}</span>}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            <FooterCol title="Products" links={[['Marketplace',`/${locale}/marketplace`],['Exchange Shops',`/${locale}/shops`],['Live Rates',`/${locale}/rates`]]} />
+            <FooterCol title="Account" links={[['Sign Up',`/${locale}/register`],['Log In',`/${locale}/login`],['Deposit',`/${locale}/deposit`],['Withdraw',`/${locale}/withdraw`]]} />
+            <FooterCol title="Resources" links={[['Verify Identity',`/${locale}/kyc`],['Transactions',`/${locale}/transactions`],['Payment Methods',`/${locale}/payment-methods`],['Rate Alerts','']]} />
+            <FooterCol title="Company" links={[['About Us',''],['Security',''],['Careers',''],['Press','']]} />
+            <FooterCol title="Help" links={[['Help Center',''],['API Docs',''],['Contact Us','']]} />
           </div>
           <div className="border-t border-gray-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-400">
             <div className="flex gap-6">
@@ -368,6 +354,22 @@ export default function HomePage({ params }: { params: { locale: string } }) {
           </div>
         </div>
       </footer>
+    </div>
+  )
+}
+
+function FooterCol({ title, links }: { title: string; links: [string, string][] }) {
+  return (
+    <div>
+      <h4 className="font-bold mb-4 text-[#0e0f0c]">{title}</h4>
+      <ul className="space-y-2">
+        {links.map(([label, href]) => (
+          <li key={label}>
+            {href ? <Link href={href} className="text-sm text-gray-500 hover:text-[#0e0f0c] transition-colors">{label}</Link>
+            : <span className="text-sm text-gray-500 hover:text-[#0e0f0c] cursor-pointer transition-colors">{label}</span>}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
