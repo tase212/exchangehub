@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/lib/AuthContext'
 import { useTranslation } from '@/i18n/useTranslation'
 
@@ -35,11 +35,12 @@ const RATES: Record<string, number> = {
 export default function CreateOrderPage({ params }: { params: { locale: string } }) {
   const { t, locale } = useTranslation()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { isAuthenticated } = useAuth()
 
-  const [sellCurrency, setSellCurrency] = useState('CNY')
-  const [sellAmount, setSellAmount] = useState('')
-  const [buyCurrency, setBuyCurrency] = useState('HKD')
+  const [sellCurrency, setSellCurrency] = useState(searchParams.get('sell') || 'CNY')
+  const [sellAmount, setSellAmount] = useState(searchParams.get('amount') || '')
+  const [buyCurrency, setBuyCurrency] = useState(searchParams.get('buy') || 'HKD')
   const [method, setMethod] = useState('OFFLINE_CASH')
   const [location, setLocation] = useState('')
   const [note, setNote] = useState('')
