@@ -17,6 +17,8 @@
   "nav.transactions": "Transactions",
   "footer.rights": "© {{year}} ExchangeHub. All rights reserved.",
   "status.open": "Open",
+  "status.accepted": "Accepted",
+  "status.paid": "Paid",
   "status.matched": "Matched",
   "status.completed": "Completed",
   "status.cancelled": "Cancelled",

@@ -10,7 +10,7 @@ interface Wallet { id: string; currency: string; balance: number; frozenBalance:
 interface Order { id: string; sellCurrency: string; sellAmount: number; buyCurrency: string; buyAmount: number; rate: number; status: string; method: string; createdAt: string; completedAt: string | null; seller?: { id: string }; buyer?: { id: string } }
 
 const CURRENCY_FLAGS: Record<string, string> = { CNY: '🇨🇳', HKD: '🇭🇰', USD: '🇺🇸', EUR: '🇪🇺', JPY: '🇯🇵', GBP: '🇬🇧', SGD: '🇸🇬', TWD: '🇹🇼', THB: '🇹🇭', KRW: '🇰🇷' }
-const STATUS_COLORS: Record<string, string> = { OPEN: 'text-green-600 bg-green-50', MATCHED: 'text-blue-600 bg-blue-50', COMPLETED: 'text-gray-600 bg-gray-100', CANCELLED: 'text-red-600 bg-red-50' }
+const STATUS_COLORS: Record<string, string> = { OPEN: 'text-green-600 bg-green-50', ACCEPTED: 'text-blue-600 bg-blue-50', PAID: 'text-purple-600 bg-purple-50', COMPLETED: 'text-gray-600 bg-gray-100', CANCELLED: 'text-red-600 bg-red-50' }
 
 export default function DashboardPage({ params }: { params: { locale: string } }) {
   const { t, locale } = useTranslation()
@@ -95,7 +95,7 @@ export default function DashboardPage({ params }: { params: { locale: string } }
         </div>
         <div className="bg-white rounded-xl shadow-sm p-5">
           <p className="text-gray-500 text-sm">{t('stats.active')}</p>
-          <p className="text-2xl font-bold mt-1 text-blue-600">{orders.filter((o) => o.status === 'OPEN' || o.status === 'MATCHED').length}</p>
+          <p className="text-2xl font-bold mt-1 text-blue-600">{orders.filter((o) => o.status === 'OPEN' || o.status === 'ACCEPTED' || o.status === 'PAID').length}</p>
         </div>
       </div>
 
