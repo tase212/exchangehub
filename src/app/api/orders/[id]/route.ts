@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { calculateCommission } from '@/lib/commission'
 
 export async function GET(
   request: Request,
@@ -129,6 +130,19 @@ export async function PATCH(
             userId: order.sellerId,
             currency: order.buyCurrency,
             balance: order.buyAmount,
+          },
+        })
+
+        // Create commission record
+        const commissionAmount = calculateCommission(order.sellAmount)
+        await tx.commission.create({
+          data: {
+            orderId: order.id,
+            orderAmount: order.sellAmount,
+            rate: 0.01,
+            amount: commissionAmount,
+            currency: order.sellCurrency,
+            status: 'PENDING',
           },
         })
 

@@ -73,6 +73,7 @@ model Order {
   seller        User        @relation("Seller", fields: [sellerId], references: [id])
   buyer         User?       @relation("Buyer", fields: [buyerId], references: [id])
   reviews       Review[]
+  commissions   Commission[]
 
   @@index([sellCurrency, buyCurrency, status])
   @@index([sellerId])
@@ -208,4 +209,56 @@ model Transaction {
   @@index([userId, type])
   @@index([userId, status])
   @@map("transactions")
+}
+
+model Admin {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String   @map("password_hash")
+  name          String
+  role          String   @default("ADMIN")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  commissions   Commission[]
+  withdrawals   AdminWithdrawal[]
+
+  @@map("admins")
+}
+
+model Commission {
+  id            String   @id @default(uuid())
+  orderId       String   @map("order_id")
+  adminId       String?  @map("admin_id")
+  orderAmount   Float    @map("order_amount")
+  rate          Float
+  amount        Float
+  currency      String
+  status        String   @default("PENDING")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  order         Order?   @relation(fields: [orderId], references: [id])
+  admin         Admin?   @relation(fields: [adminId], references: [id])
+
+  @@index([status])
+  @@map("commissions")
+}
+
+model AdminWithdrawal {
+  id            String   @id @default(uuid())
+  adminId       String?  @map("admin_id")
+  amount        Float
+  currency      String
+  bankName      String   @map("bank_name")
+  accountLast4  String   @map("account_last4")
+  accountHolder String   @map("account_holder")
+  status        String   @default("PENDING")
+  note          String?
+  createdAt     DateTime @default(now()) @map("created_at")
+  completedAt   DateTime? @map("completed_at")
+
+  admin         Admin?   @relation(fields: [adminId], references: [id])
+
+  @@map("admin_withdrawals")
 }
