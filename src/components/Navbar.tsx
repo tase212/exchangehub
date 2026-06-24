@@ -1,16 +1,35 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/lib/AuthContext'
 import { useTranslation } from '@/i18n/useTranslation'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { NotificationBell } from '@/components/NotificationBell'
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [walletOpen, setWalletOpen] = useState(false)
+  const [notifOpen, setNotifOpen] = useState(false)
+  const [notifications, setNotifications] = useState<any[]>([])
+  const [unreadCount, setUnreadCount] = useState(0)
   const { user, isAuthenticated } = useAuth()
   const { t, locale } = useTranslation()
+
+  useEffect(() => { if (isAuthenticated) fetchNotifications() }, [isAuthenticated])
+  const fetchNotifications = async () => {
+    try {
+      const res = await fetch('/api/notifications?unread=true')
+      const data = await res.json()
+      setNotifications(data.notifications || [])
+      setUnreadCount(data.unreadCount || 0)
+    } catch {}
+  }
+
+  const markAllRead = async () => {
+    await fetch('/api/notifications', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ markAllRead: true }) })
+    setUnreadCount(0); setNotifications([])
+  }
 
   return (
     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
@@ -35,6 +54,7 @@ export function Navbar() {
 
             {isAuthenticated ? (
               <>
+                <NotificationBell locale={locale} />
                 <div className="relative">
                   <button onClick={() => setWalletOpen(!walletOpen)} className="text-gray-600 hover:text-blue-600 transition text-sm font-medium flex items-center gap-1">
                     💰 {t('nav.wallet')}
@@ -47,6 +67,27 @@ export function Navbar() {
                       <Link href={`/${locale}/transactions`} className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600">{t('nav.transactions')}</Link>
                       <Link href={`/${locale}/payment-methods`} className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600">{t('nav.paymentMethods')}</Link>
                       <Link href={`/${locale}/kyc`} className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600">{t('nav.kyc')}</Link>
+                    </div>
+                  )}
+                </div>
+                <div className="relative">
+                  <button onClick={() => { setNotifOpen(!notifOpen); if (unreadCount > 0) markAllRead() }}
+                    className="text-gray-600 hover:text-blue-600 transition text-sm relative">
+                    🔔
+                    {unreadCount > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{unreadCount > 9 ? '9+' : unreadCount}</span>}
+                  </button>
+                  {notifOpen && (
+                    <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 max-h-96 overflow-y-auto">
+                      <p className="px-4 py-2 text-sm font-semibold border-b">通知</p>
+                      {notifications.length === 0 ? (
+                        <p className="px-4 py-6 text-sm text-gray-400 text-center">暂无通知</p>
+                      ) : notifications.map((n) => (
+                        <Link key={n.id} href={n.link || '#'} onClick={() => setNotifOpen(false)}
+                          className="block px-4 py-3 hover:bg-gray-50 border-b last:border-b-0">
+                          <p className="text-sm font-medium">{n.title}</p>
+                          <p className="text-xs text-gray-500 mt-0.5">{n.message}</p>
+                        </Link>
+                      ))}
                     </div>
                   )}
                 </div>

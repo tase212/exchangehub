@@ -28,6 +28,8 @@ model User {
   bankCards        BankCard[]
   bankAccounts     BankAccount[]
   transactions     Transaction[]
+  messages         Message[]
+  notifications    Notification[]
 
   @@map("users")
 }
@@ -64,6 +66,10 @@ model Order {
   location      String?
   note          String?
   
+  paymentProof  String?     @map("payment_proof")
+  paymentNote   String?     @map("payment_note")
+  paidAt        DateTime?   @map("paid_at")
+  
   frozenWalletId String?    @map("frozen_wallet_id")
   
   createdAt     DateTime    @default(now()) @map("created_at")
@@ -74,6 +80,7 @@ model Order {
   buyer         User?       @relation("Buyer", fields: [buyerId], references: [id])
   reviews       Review[]
   commissions   Commission[]
+  messages      Message[]
 
   @@index([sellCurrency, buyCurrency, status])
   @@index([sellerId])
@@ -261,4 +268,34 @@ model AdminWithdrawal {
   admin         Admin?   @relation(fields: [adminId], references: [id])
 
   @@map("admin_withdrawals")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  orderId   String   @map("order_id")
+  senderId  String   @map("sender_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  order     Order    @relation(fields: [orderId], references: [id])
+  sender    User     @relation(fields: [senderId], references: [id])
+
+  @@index([orderId, createdAt])
+  @@map("messages")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  type      String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@map("notifications")
 }
